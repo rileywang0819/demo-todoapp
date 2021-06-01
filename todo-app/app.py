@@ -1,5 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
-from flask.globals import request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -20,14 +19,14 @@ db.create_all()
 # controller listens to the view '/todos/create'
 @app.route('/todos/create', methods=['POST'])
 def create_todo():
-    # set a default empty string in case nothing comes in
-    description = request.form.get('description')
+    description = request.get_json()['description']
     todo = Todo(description=description)
     db.session.add(todo)
     db.session.commit()
-    # 'index' here is the name of our route handler index 
-    # that listens to changes on index route
-    return redirect(url_for('index'))  
+    # jsonify:return json data to the client
+    return jsonify({
+        'description': todo.description
+    })
 
 @app.route('/')
 def index():

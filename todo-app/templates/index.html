@@ -5,20 +5,54 @@
             .hidden {
                 display: none;
             }
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                width: 500px;
+            }
         </style>
     </head>
     <body>
-        <form id="form">
+        <form id="form" method="POST" action="/todos/create">
             <input type="text" id="description" name="description" />
             <input type="submit" value="Create" />
         </form>
         <div id="error" class="hidden">Something went wrong!</div>
         <ul id="todos">
             {% for todo in todos %}
-            <li>{{ todo.description }}</li>
+            <li>
+                <input class="check-completed" data-id="{{ todo.id }}" type="checkbox" {% if todo.completed %} checked {% endif %} />
+                {{ todo.description }}
+            </li>
             {% endfor %}
         </ul>
         <script>
+            const checkboxes = document.querySelectorAll('.check-completed');
+            for(let i = 0; i < checkboxes.length; i++) {
+                const checkbox = checkboxes[i];
+                checkbox.onchange = function(e) {
+                    // console.log(e);
+                    const newCompleted = e.target.checked;
+                    const todoId = e.target.dataset['id'];
+                    fetch('/todos/' + todoId + '/set-completed', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            'completed': newCompleted
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(function() {
+                        document.getElementById('error').className = 'hidden';
+                    })
+                    .catch(function() {
+                        document.getElementById('error').className = '';
+                    })
+                }
+            }
+
             // e: event handler
             document.getElementById('form').onsubmit = function(e) {
                 // default behavior: full page refresh and submit it using the method and action attributes
@@ -39,7 +73,7 @@
                 })
                 .then(function(jsonResponse) {
                     console.log(jsonResponse);
-                    const liItem = document.createElement('LI');
+                    const liItem = document.createElement('li');
                     liItem.innerHTML = jsonResponse['description'];
                     // if succeed
                     document.getElementById('error').className = 'hidden';

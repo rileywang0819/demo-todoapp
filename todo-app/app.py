@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, jsonify, abort
+from flask import Flask, json, render_template, redirect, url_for, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import sys
@@ -14,7 +14,7 @@ class Todo(db.Model):
     __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(), nullable=False)
-    completed = db.Column(db.Boolean, nullable=False, default=False)
+    completed = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return f'<Todo {self.id}, {self.description}>'
@@ -28,10 +28,12 @@ def create_todo():
     body = {}
     try:
         description = request.get_json()['description']
-        todo = Todo(description=description)
+        todo = Todo(description=description, completed=False)
         db.session.add(todo)
         db.session.commit()
+        body['id'] = todo.id
         body['description'] = todo.description
+        body['completed'] = todo.completed
     except:
         error = True
         db.session.rollback()
@@ -40,17 +42,34 @@ def create_todo():
         db.session.close()
     if not error:
         # jsonify:return json data to the client
-        return jsonify({
-            'description': todo.description
-        })
+        return jsonify(body)
     else:
         # raise an HTTPException
+        abort(400)
+
+@app.route('/todos/<todo_id>/set-completed', methods=['POST'])
+def set_completed_todo(todo_id):
+    error = False
+    try:
+        completed = request.get_json()['completed']
+        print('completed:', completed)
+        todo = Todo.query.get(todo_id)
+        todo.completed = completed
+        db.session.commit()
+    except:
+        error = True
+        db.session.rollback()
+    finally:
+        db.session.close()
+    if not error:
+        return redirect(url_for('index'))
+    else:
         abort(400)
 
 @app.route('/')
 def index():
     # Jinja2 as the template engine
-    return render_template('index.html', todos=db.session.query(Todo).all())
+    return render_template('index.html', todos=Todo.query.order_by('id').all())
 
 if __name__ == '__main__':
     app.run(debug=True)

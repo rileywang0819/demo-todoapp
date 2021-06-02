@@ -59,12 +59,33 @@ def set_completed_todo(todo_id):
     except:
         error = True
         db.session.rollback()
+        print(sys.exc_info())
     finally:
         db.session.close()
     if not error:
         return redirect(url_for('index'))
     else:
         abort(400)
+
+@app.route('/todos/<todo_id>', methods=['DELETE'])
+def delete_todo(todo_id):
+    error = False
+    try:
+        todo = Todo.query.get(todo_id)
+        db.session.delete(todo)
+        db.session.commit()
+    except:
+        error = True
+        db.session.rollback()
+        print(sys.exc_info())
+    finally:
+        db.session.close()
+    if not error:
+        # return redirect(url_for('index'))  # 405 error
+        ''' either is ok '''
+        return jsonify({'success': True})
+        # return render_template('index.html', data=Todo.query.order_by('id').all())
+        
 
 @app.route('/')
 def index():

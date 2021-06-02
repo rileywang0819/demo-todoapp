@@ -9,7 +9,16 @@
                 list-style: none;
                 padding: 0;
                 margin: 0;
-                width: 500px;
+                width: 300px;
+            }
+            li button {
+                -webkit-appearance: none;
+                border: none;
+                outline:none;
+                color: red;
+                float: right;
+                cursor: pointer;
+                font-size: 10px;
             }
         </style>
     </head>
@@ -24,10 +33,31 @@
             <li>
                 <input class="check-completed" data-id="{{ todo.id }}" type="checkbox" {% if todo.completed %} checked {% endif %} />
                 {{ todo.description }}
+                <button class="delete-btn" data-id="{{ todo.id }}"> &cross; </button>
             </li>
             {% endfor %}
         </ul>
         <script>
+            const deleteBtns = document.querySelectorAll('.delete-btn');
+            for(let i = 0; i < deleteBtns.length; i++) {
+                const btn = deleteBtns[i];
+                btn.onclick = function(e) {
+                    // console.log(e);
+                    const todoId = e.target.dataset['id'];
+                    fetch('/todos/' + todoId, {
+                        method: 'DELETE'
+                    })
+                    .then(function() {
+                        document.getElementById('error').className = 'hidden';
+                        const item = e.target.parentElement;
+                        item.remove();
+                    })
+                    .catch(function () {
+                        document.getElementById('error').className = '';
+                    })
+                }
+            }
+
             const checkboxes = document.querySelectorAll('.check-completed');
             for(let i = 0; i < checkboxes.length; i++) {
                 const checkbox = checkboxes[i];

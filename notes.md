@@ -1,6 +1,6 @@
-SQL & Data Modeling for the Web
+# SQL & Data Modeling for the Web
 
-- [1. Course Introduction](#1-course-introduction)
+- [1. Introduction](#1-introduction)
 - [2. Interacting with Databases](#2-interacting-with-databases)
   - [2.1 Overview](#21-overview)
   - [2.2 Relational Databases](#22-relational-databases)
@@ -45,9 +45,9 @@ SQL & Data Modeling for the Web
     - [7.3.3 Foreign Key Constraint Setup](#733-foreign-key-constraint-setup)
     - [7.3.4 One-to-Many Relationship Setup](#734-one-to-many-relationship-setup)
 
-## 1. Course Introduction
+## 1. Introduction
 
-**Course Goal:** learn the skills needed to traverse the stack and develop an entire database-backed web application.
+**Goal:** learn the skills needed to traverse the stack and develop an entire database-backed web application.
 
 **Tech stack:**
 

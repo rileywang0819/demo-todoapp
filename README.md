@@ -8,8 +8,8 @@ Tech stack:
 - web server framework: Flask
 - database: PostgresSQL
 - Python libraries:
-  - psycopg2
-  - SQLAlchemy
+  - ~~psycopg2~~
+  - ~~SQLAlchemy~~
   - Flask-SQLAlchemy
 
 

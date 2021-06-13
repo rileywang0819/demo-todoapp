@@ -38,7 +38,7 @@ class TodoList(db.Model):
 
 
 # controller listens to the view '/todos/create' : create a new todo
-@app.route('/todos/create', methods=['POST'])
+@app.route('/todos', methods=['POST'])
 def create_todo():
     error = False
     body = {}
@@ -64,7 +64,7 @@ def create_todo():
 
 
 # controller listens to the view '/todos/<todo_id>/set-complete' : set todo completed
-@app.route('/todos/<todo_id>/set-completed', methods=['POST'])
+@app.route('/todos/<todo_id>', methods=['POST'])
 def update_todo(todo_id):
     error = False
     try:
@@ -85,7 +85,7 @@ def update_todo(todo_id):
 
 
 
-@app.route('/todos/<todo_id>/delete', methods=['DELETE'])
+@app.route('/todos/<todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
     error = False
     try:
@@ -106,7 +106,7 @@ def delete_todo(todo_id):
 
 
 # controller listens to the view '/lists/create' : create a new todo-list
-@app.route('/lists/create', methods=['POST'])
+@app.route('/lists', methods=['POST'])
 def create_list():
     error = False
     body = {}
@@ -131,7 +131,7 @@ def create_list():
 
 
 # controller listens to the view '/lists/<list_id>/set-completed' : set todo-list completed
-@app.route('/lists/<list_id>/set-completed', methods=['POST'])
+@app.route('/lists/<list_id>', methods=['POST'])
 def set_completed_list(list_id):
     error = False
     try:
@@ -155,7 +155,7 @@ def set_completed_list(list_id):
 
 
 # controller listens to the view '/lists/<list_id>/delete' : delete the todo-list with list_id
-@app.route('/lists/<list_id>/delete', methods=['DELETE'])
+@app.route('/lists/<list_id>', methods=['DELETE'])
 def delete_list(list_id):
     error = False
     try:

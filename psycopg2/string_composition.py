@@ -1,17 +1,17 @@
 import psycopg2
 
-conn = psycopg2.connect('dbname=example user=postgres password=pupu0819')
+conn = psycopg2.connect('dbname=example user=postgres password=xxxxxxxx')
 
 # Open a cursor to perform database operations
 cur = conn.cursor()
 
 # Drop table if it already exited
-cur.execute('DROP TABLE IF EXISTS table2;')
+cur.execute('DROP TABLE IF EXISTS table1;')
 
 # (re)create the todos table
 # (note: triple quotes allow multiline text in python)
 cur.execute("""
-  CREATE TABLE table2 (
+  CREATE TABLE table1 (
     id INTEGER PRIMARY KEY,
     completed BOOLEAN NOT NULL DEFAULT False
   );
@@ -20,12 +20,13 @@ cur.execute("""
 
 # 2 ways to compose SQL query using strings:
 # 1. use tuple
-cur.execute('INSERT INTO table2 (id, completed) VALUES (%s, %s);', (1, True))
+cur.execute('INSERT INTO table1 (id, completed) VALUES (%s, %s);', (1, True))
+cur.execute('INSERT INTO table1 (id, completed) VALUES (2, false);')
 
 # 2. use dictionary
-SQL = 'INSERT INTO table2 (id, completed) VALUES (%(id)s, %(completed)s);'
+SQL = 'INSERT INTO table1 (id, completed) VALUES (%(id)s, %(completed)s);'
 data = {
-    'id': 2, 
+    'id': 3, 
     'completed': False
 }
 cur.execute(SQL, data)

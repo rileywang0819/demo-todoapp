@@ -2,7 +2,7 @@
 
 This todo app is an entire database-backed web application.
 
-Tech stack:
+**Tech stack:**
 
 - programming language: Python 3
 - web server framework: Flask
@@ -13,8 +13,8 @@ Tech stack:
   - Flask-SQLAlchemy
 
 
-`psycopg2` directory: demos of psycopg2
+**psycopg2** folder: demos of `psycopg2`
 
-`flask-sqlalchemy` directory: demos of SQLAlchemy in Flask
+**flask-sqlalchemy** folder: demos of `SQLAlchemy in Flask`
 
-`todo-app` directory: demos of todo app
+**todo-app** folder: demos of todo app

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f847bfbe51bd
-Revises: 8e7f2bfb2744
-Create Date: 2021-06-09 15:53:50.006347
+Revision ID: 22a12197f2a8
+Revises: aaa2f3a607b6
+Create Date: 2021-07-24 11:33:03.497358
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f847bfbe51bd'
-down_revision = '8e7f2bfb2744'
+revision = '22a12197f2a8'
+down_revision = 'aaa2f3a607b6'
 branch_labels = None
 depends_on = None
 
@@ -21,10 +21,6 @@ def upgrade():
     op.alter_column('todos', 'list_id',
                existing_type=sa.INTEGER(),
                nullable=False)
-    
-    op.add_column('todolists', sa.Column('completed', sa.Boolean(), nullable=True))
-    op.execute('UPDATE todos SET completed = False WHERE completed is NULL;')
-    op.alter_column('todos', 'completed', nullable=False)
     # ### end Alembic commands ###
 
 

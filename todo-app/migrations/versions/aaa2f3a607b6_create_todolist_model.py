@@ -1,8 +1,8 @@
-"""empty message
+"""create todolist model
 
-Revision ID: 8e7f2bfb2744
-Revises: 8185c8d9dafb
-Create Date: 2021-06-09 15:32:14.015419
+Revision ID: aaa2f3a607b6
+Revises: a68fdf8c772b
+Create Date: 2021-07-24 11:12:04.737502
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8e7f2bfb2744'
-down_revision = '8185c8d9dafb'
+revision = 'aaa2f3a607b6'
+down_revision = 'a68fdf8c772b'
 branch_labels = None
 depends_on = None
 
@@ -23,8 +23,10 @@ def upgrade():
     sa.Column('name', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+
     # op.add_column('todos', sa.Column('list_id', sa.Integer(), nullable=False))
     op.add_column('todos', sa.Column('list_id', sa.Integer(), nullable=True))
+    
     op.create_foreign_key(None, 'todos', 'todolists', ['list_id'], ['id'])
     # ### end Alembic commands ###
 
